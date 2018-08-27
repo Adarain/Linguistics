@@ -1,0 +1,185 @@
+%document layout
+\documentclass[12pt, a4paper]{scrartcl}   
+\usepackage{geometry}                		
+\geometry{a4paper, top=20mm, left=25mm, right=25mm, bottom=25mm,
+headsep=10mm, footskip=12mm}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parskip}{1ex}
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}{\parskip}{-1em}{\normalfont\normalsize\bfseries}}
+\makeatother
+\usepackage{enumitem}
+\setlist{noitemsep} 
+
+
+%file encoding / fonts / etc
+\usepackage{color}
+\usepackage{fontspec}
+%\setmainfont[Ligatures=TeX]{Charis SIL}
+\usepackage{libertine}
+%\renewcommand*\sectfont{\normalcolor\bfseries}
+%\newfontfamily\lib{Linux Libertine}
+\usepackage{calc}
+
+%tables and figures
+\usepackage{tabu}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{float}
+\restylefloat{table}
+\usepackage{placeins}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{forest}
+\usepackage{lingmacros}
+\usepackage{vowel}
+\usepackage{tikz}
+\usetikzlibrary{topaths}
+\tikzstyle{every picture}+=[remember picture,inner xsep=0,inner ysep=0.25ex]
+
+%formatting
+\usepackage{contour}
+\contourlength{0.8pt}
+\usepackage{soul}
+\setuldepth{a}
+\newcommand{\glem}[1]{%
+  \ul{{\phantom{#1}}}%extra braces are needed. don’t ask
+  \llap{\contour{white}{#1}}%
+}
+\newcommand{\gl}[1]{\textsc{#1}}	%gloss
+\newcommand{\en}[1]{``#1''}		%english translations
+\newcommand{\de}[1]{\hspace{0pt}{\color{teal}#1}} %conlang examples
+\renewcommand{\ex}[1]{\de{#1}\\}	%first line in example glosses
+\newcommand{\orth}[1]{{⟨}#1{⟩}}	%orthography 
+%\newcommand{\glem}[1]{\underline{\smash{#1}}}	%gloss-emphasis
+
+\newcommand{\traceV}[1]{\tikz[baseline=(traceV.base)]\node (traceV) {\fbox{\phantom{#1}}};}
+\newcommand{\targetV}[1]{\tikz[baseline=(targetV.base)]\node (targetV)  {\glem{\de{#1}}};}
+\newcommand{\traceT}[1]{\tikz[baseline=(traceT.base)]\node (traceT) {\fbox{\phantom{#1}}};}
+\newcommand{\targetT}[1]{\tikz[baseline=(targetT.base)]\node (targetT)  {\glem{\de{#1}}};}
+
+\newcommand{\movement}{
+\begin{tikzpicture}[overlay]
+    \draw[-latex] (traceV.south) -- ++(0,-1.5ex) -| (targetV.south);
+    \draw[-latex] (traceT.north) -- ++(0,1.5ex) -| (targetT.north);
+\end{tikzpicture}
+\newline
+}
+\newcommand{\movementV}{
+\begin{tikzpicture}[overlay]
+    \draw[-latex] (traceV.south) -- ++(0,-1.5ex) -| (targetV.south);
+\end{tikzpicture}
+\newline
+}
+\newcommand{\movementT}{
+\begin{tikzpicture}[overlay]
+    \draw[-latex] (traceT.north) -- ++(0,1.5ex) -| (targetT.north);
+\end{tikzpicture}
+\newline
+}
+
+\author{Sascha M. Baer}
+\title{An Explanation of Verb Placement in German}
+
+\begin{document}
+\maketitle
+
+German word order can often be quite confusing for learners. I believe part of this is because it is presented as a bunch of relatively random-seeming rules and exceptions which are learned one by one as they come up. However, it is possible to explain most phenomena with a very short set of simple rules. However, to do so, one must simply accept one (at first quite unintuitive) idea: German is a verb-final language\footnote{About half the languages of the world are verb-final, but many of the most widely spoken ones are not. Important examples include Japanese and Korean, languages of India and the classical languages of Europe such as Latin or Ancient Greek. It is also quite certain that some ancestor to the German and English language used to be verb-final as well.}. Since this is not immediately apparent in the most simple kinds of sentences, which learners are exposed to first, this is not typically done in a classroom setting, and more traditional descriptions are favoured by teachers and students alike. However, this approach can cause confusion later on. This document is meant to serve as an alternative approach that can supplement ones studies. Even if the reader may not find the ruleset in this document useful for their studies, there is still value in seing a different perspective on the same thing.
+
+\section{Underlying and Surface forms}
+To make sense of the notion of German being verb-final it makes sense to introduce the notion of an \emph{underlying} form, as opposed to a \emph{surface} form. The surface form of a sentence is what comes out of your mouth --- what you actually say. The underlying form meanwhile what happens on the backstage --- a more abstract form of the grammar from which your brain then constructs the surface form. The idea is then that German has verb-final \emph{underlying} forms, but verb-second \emph{surface} forms. I want to illustrate this with a very simple example first, before we dive into the acutal ruleset. 
+
+Consider the sentence \de{Ich sehe dich.} \en{I see you}. Traditionally this sentence would simply be analyzed as having the basic word order subject-verb-object commonly found in simple sentences. However, under our analysis, the whole thing looks as follows:
+
+\enumsentence{\de{Ich \targetV{sehe} dich \traceV{sehe}.} \movementV \label{sehe-prs}}
+
+The box represents the location where the verb would be found in the underlying form, which would be \emph{†ich dich sehe}. It is important to mention that while the underyling form makes a lot of sense from a theoretical standpoint, native speakers don’t consciously think of it this way. They only recognize the surface forms as correct. The underlying forms however are what allows us to create an easy set of rules to work with to explain the much more complicated surface forms.
+
+\section{The rules}
+
+The following then are the rules that explain German word order. It may at first look a bit complex but trust me: it is not, and I will go over it in more detail below with a set of examples.
+
+\begin{enumerate}
+\item Every sentence has a \emph{primary verb}. This verb is conjugated for person and number. All other parts of the predicate\footnote{Verb complex --- everything verby in a sentence} must be in a non-finite form: infinitive or participle. 
+\item In the underlying form, the predicate comes at the end of the sentence, with the primary verb at the very end.
+\item In affirmative\footnote{“Normal sentences”, as opposed to questions or commands} main clauses the primary verb is moved to second position in the sentence. This movement leaves behind separable prefixes.
+\item In polar questions\footnote{Questions which ask for “yes” or “no”, as in \de{Verstehst du es?} \en{Do you understand it?}} and commands it is instead moved to first position.
+\item In subordinate and relative clauses, no movement happens --- the primary verb is at the end.
+\end{enumerate}
+
+In other words, if you’re already familiar with German subordinate clauses, the idea is that in the underlying form, all sentences look like subordinate clauses, but then depending on the type of sentence, the primary verb is moved either to first (questions, commands) or second (otherwise) positions.
+
+\section{Affirmative sentences in the present or preterite}
+In the most simple sentences using present (Präsens) or preterite (Präteritum) tense, the primary verb is simply the main (and only) verb of the sentence. However, some verbs have so-called separable prefixes. These are connected to the verb in non-finite forms such as the infinitive, but when the verb is conjugated, they show up at the end of the sentence. In our analysis, rather than being moved there, they are being \emph{left behind}. Thus, using the verb \de{aus\-schlafen} \en{to sleep in}:
+
+\enumsentence{\de{Ich \targetV{schlafe} gerne aus\traceV{schlafe}.} \movementV \newline \en{I like to sleep in}, literally \en{I sleep gladly in}}
+
+Or with the verb \de{einatmen} \en{to take a breath} in the past tense:
+
+\enumsentence{\de{Er \targetV{atmete} tief ein\traceV{atmete}.} \movementV \newline \en{He took a deep breath.}}
+
+\section{Affirmative sentences in compound tenses}
+In the perfect (Perfekt) and future (Futur I) tenses, the primary verb is an \emph{auxiliary} verb, with the main verb\footnote{With “main verb” I am here referring to what in German would be called the \de{Hauptverb}: The word that carries the actual meaning of the verb. In \de{Ich werde arbeiten} that would be \de{arbeiten} \en{to work}, and not the primary verb \de{werden}, which simply marks future tense without really having any meaning whatsoever.} being put into a non-finite form. The same is also true of the passive and of a bunch of other constructions. Thus, the perfect form of example (\ref{sehe-prs}) looks like this (auxiliary \de{haben} + participle):
+
+\enumsentence{\de{Ich \targetV{habe} dich gesehen \traceV{habe}.} \movementV \newline \en{I saw you.}}
+
+And a future construction with \de{ausschlafen} might look like this (auxiliary \de{werden} + infinitive):
+
+\enumsentence{\de{Morgen \targetV{werde} ich ausschlafen \traceV{werde}.} \movementV \newline \en{Tomorrow I will sleep in.} \label{futur}}
+
+Notice in particular how in (\ref{futur}) the separable prefix \de{aus-} stays with the verb.
+
+The same structure can also be seen with modal verbs such as \de{mögen} \en{want to, like}:
+
+\enumsentence{\de{Ich \targetV{möchte} einen Kaffee trinken \traceV{möchte}.} \movementV \newline \en{I would like to drink a coffee.}}
+
+\section{Subordinate and relative clauses}
+As I mentioned before, in subordinate and relative clauses, the primary verb does not move and thus remains at the end of the clause. Here an example with a subordinate clause in the perfect tense:
+
+\enumsentence{\de{Ich weiss, {dass ich dich gesehen \fbox{habe}}.} \\ \en{I know {that I saw you}.}}
+
+And here two examples using relative clauses with the separable verb \de{aussehen} \en{to look (like)} in the present. The primary verb (\de{war}) of the main clauses still behaves the same way as usual:
+
+\enumsentence{\de{Das \targetV{war} die Frau, {die gut aus\fbox{sieht}}, \traceV{War}.} \movementV \newline \en{That was the woman {who looks good}.}}
+\enumsentence{\de{Die Frau, {die gut aus\fbox{sieht}}, \targetV{war} da hinten \traceV{War}.} \movementV \newline \en{The woman {who looks good} was back there.}}
+
+\section{Questions and commands}
+Not much changes for (polar) questions and commands. The only difference in word order is that the primary verb is moved to \emph{first} position instead. Thus:
+
+\enumsentence{\de{\targetV{Geh} nach Hause \traceV{geh}!}\movementV \newline \en{Go home!}}
+\enumsentence{\de{\targetV{Lacht} er mich aus\traceV{lacht}?} \movementV \newline \en{Is he laughing at me?} (\de{auslachen}: separable verb \en{to laugh at})}
+
+Importantly however, wh-questions (\de{W-Fragen}) are treated like normal sentences, with the question word \emph{always} being in first position:
+
+\enumsentence{\de{Wann \targetV{bist} du angekommen \traceV{bist}?} \movementV \newline \en{When did you arrive?}}
+
+If you want to you can think of polar questions as having a silent question word in first position and commands as having a silent “command word” instead. Linguists love to do such tricks but I don’t think it’s entirely useful here.
+
+
+\section{Case study: Placement of \de{nicht}}
+Throughout the document you may have been wondering what exactly this analysis is acutally is good for. And I think the rules for placing \de{nicht} \en{not} in a sentence are a perfect example of this, so I want to include it here. I first want to give some example sentences to illustrate the pattern:
+
+\eenumsentence{
+\item \de{Ich sehe dich \glem{nicht}.} \en{I don’t see you.} \label{sentence-neg}
+\item \de{Ich sehe \glem{nicht} dich.} \en{I don’t see \emph{you} (but rather someone else)}
+\item \de{\glem{Nicht} ich sehe dich.}\footnote{This sentence might seem to violate the verb-second rule. This is not the case, as \de{nicht ich} forms a unit.} \en{\emph{I} don’t see you (but someone else does)}
+}
+
+The obvious pattern seems to be that whatever is being negated is preceded by \de{nicht}. But how does the first one factor into this? Basing our word order rules purely on the surface form would lead us to expect \emph{*Nicht sehe ich dich.} but this is ungrammatical. However, with our newly found machinery, the first sentence fits the pattern perfectly well: the \de{nicht} is put before the position of the predicate, and then the verb is moved to second position, stranding it at the end, just like what happens to separable prefixes:
+
+\enumsentence{\de{Ich \targetV{sehe} dich nicht \traceV{sehe}.} \movementV}
+
+Returning to the good-looking lady from the previous sentences, we can also see this in action in more complicated sentences:
+
+\enumsentence{\de{Ich \targetV{sehe} die Frau, die gut aussieht, nicht \traceV{sehe}.} \movementV \newline \en{I don’t see the woman who looks good.}}
+
+Interestingly, the verb \de{sein} \en{to be} does not appear to like being negated directly, so you won’t encounter many (any?) sentences with \de{sein} as the main verb and \de{nicht} at the very end.
+
+\section{The white lie}
+The analysis I have presented you is not quite what you would usually see in an actual linguistics course. Usually, not only the verb is presented to move, but also the topic, the thing put in first position. In particular, the rules are usually phrased in such a way that first, the verb is moved to initial position, and then the topic is moved before the verb. This would look something like this:
+
+\enumsentence{\de{\targetT{Ich} \targetV{gehe}\footnote{You won’t believe how long it took me to make that underline on \de{gehe} look any good. Zoom in on it.} \traceT{Ich} nach Hause \traceV{gehe}.} \movement \newline \en{I am going home.}}
+
+However, I don’t believe going this much into detail is of any use anymore. Still, it might be interesting to know and I would feel a bit guilty not mentioning it at all, so here it is.
+
+\end{document}
